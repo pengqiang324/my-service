@@ -1,5 +1,5 @@
 const { spawn, exec, spawnSync } = require('child_process')
-const ls = spawnSync('D:/安装工具/Git/git-bash.exe', ['./test.sh'])
+const ls = spawn('D:/安装工具/Git/git-bash.exe', ['./test.sh'])
 
 ls.stdout.on('data', (data) => {
     console.log('正常输出')
@@ -7,7 +7,7 @@ ls.stdout.on('data', (data) => {
     console.log('~~~~~~~~~~~~~~')
 })
 
-ls.stderr.on('data', (data) => {
+ls.stderr.on('error', (data) => {
     console.log('错误输出')
     console.log(data.toString())
     console.log('-----------------')

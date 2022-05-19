@@ -1,7 +1,9 @@
 const router = require('koa-router')()
-const { use } = require('../app')
 const accountController = require('../controller/Account')
 const userController = require('../controller/User')
+const getValidateParams = require('../middlewares/validateParams')
+const { addUserSchema } = require('../validator/user')
+
 router.prefix('/users')
 
 router.get('/', function (ctx, next) {
@@ -33,7 +35,7 @@ router.patch('/update/:id', accountController.updateAccount)
 router.delete('/del/:id', accountController.deletAccount)
 router.post('/list', accountController.getAllAccountList)
 router.post('/register', userController.register)
-router.post('/login', userController.login)
+router.post('/login', getValidateParams('post', addUserSchema), userController.login)
 router.get('/getSession', async (ctx, next) => {
   try {
     if (ctx.session.userInfo) {

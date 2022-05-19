@@ -3,11 +3,26 @@ const jwt = require('jsonwebtoken')
 const { encryptPassword, verifyPassword } = require('../utils/user')
 const { jwt: tokenConfig } = require('../config')
 const { v4: uuidv4 } = require('uuid')
+const { addUserSchema } = require('../validator/user')
 
 module.exports = {
     login: async (ctx, next) => {
         const data = ctx.request.body
+        // 参数验证
+        // const scheme = joi.string()
+        // const validResult = scheme.validate(data.account)
+        // console.log(data)
+        // const scheme = addUserSchema
+        // const validResult = scheme.validate(data)
+        // console.log(validResult)
         ctx.type = 'json'
+        // if (validResult.error) {
+        //     ctx.body = {
+        //         status: 1,
+        //         msg: validResult.error.message
+        //     }
+        //     return false
+        // }
         try {
             const account = await UserService.login(data)
             if (account) {
